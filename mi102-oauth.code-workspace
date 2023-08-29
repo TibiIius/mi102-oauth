@@ -1,0 +1,14 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "confidential-client"
+	},
+	{
+		"path": "public-client"
+	}
+],
+  "settings": {}
+}
