@@ -17,8 +17,12 @@ app.use(createPinia()).use(keycloakPlugin, keycloakOptions)
 
 app.config.globalProperties.$keycloak
   .init({
-    onLoad: 'check-sso'
+    onLoad: 'check-sso',
+    pkceMethod: 'S256'
   })
-  .then(() => {
+  .finally(() => {
     app.mount('#app')
+  })
+  .catch((e) => {
+    console.log(e)
   })
