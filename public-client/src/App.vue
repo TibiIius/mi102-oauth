@@ -30,7 +30,9 @@ function removeTodo(todo: string) {
     </div>
     <div v-else class="container border-2 p-4">
       <div class="flex justify-between items-center">
-        <h1 class="ml-2 my-2 text-center underline text-4xl">Todos</h1>
+        <h1 class="ml-2 my-2 text-center underline text-4xl">
+          {{ $keycloak.idTokenParsed ? $keycloak.idTokenParsed.given_name + "'s" : '' }} Todos
+        </h1>
         <button-main @click="$keycloak.logout" :color="Colors.Error">Logout</button-main>
       </div>
       <div class="flex mt-4">
