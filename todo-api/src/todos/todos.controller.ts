@@ -25,7 +25,6 @@ export class TodosController {
 
   @Get()
   findAllForUser(@AuthenticatedUser() user) {
-    console.log(user);
     return this.todosService.findAllForUser(user.sub);
   }
 

@@ -7,20 +7,10 @@ export class TodosService {
   constructor(private prisma: PrismaService) {}
 
   async createForUser(userId: string, createTodoDto: CreateTodoDto) {
-    const user = await this.prisma.user.findFirst({
-      where: {
-        id: userId,
-      },
-    });
-
     await this.prisma.todo.create({
       data: {
         text: createTodoDto.text,
-        user: {
-          connect: {
-            id: user.id,
-          },
-        },
+        userId,
       },
     });
   }

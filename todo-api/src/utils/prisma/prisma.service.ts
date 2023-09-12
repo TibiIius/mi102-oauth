@@ -8,15 +8,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     await this.$connect().catch((e) => {
       exit(1);
     });
-
-    try {
-      await this.user.create({
-        data: {
-          id: '123',
-          username: 'test',
-        },
-      });
-    } catch {}
   }
 
   async enableShutdownHooks(app: INestApplication): Promise<void> {
