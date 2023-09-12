@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
+import { AuthenticatedUser } from 'nest-keycloak-connect';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { TodosService } from './todos.service';
 
@@ -7,22 +16,32 @@ export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
   @Post()
-  create(@Body() createTodoDto: CreateTodoDto) {
-    return this.todosService.create(createTodoDto);
+  createForUser(
+    @AuthenticatedUser() user,
+    @Body() createTodoDto: CreateTodoDto,
+  ) {
+    return this.todosService.createForUser(user.sub, createTodoDto);
   }
 
   @Get()
-  findAll() {
-    return this.todosService.findAllForUser();
+  findAllForUser(@AuthenticatedUser() user) {
+    console.log(user);
+    return this.todosService.findAllForUser(user.sub);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todosService.findOneForUser(+id);
+  findOneForUser(
+    @AuthenticatedUser() user,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.todosService.findOneForUser(user.sub, id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todosService.remove(+id);
+  removeForUser(
+    @AuthenticatedUser() user,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.todosService.removeForUser(user.sub, id);
   }
 }

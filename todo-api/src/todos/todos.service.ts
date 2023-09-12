@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/utils/database.service';
+import { PrismaService } from 'src/utils/prisma/prisma.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 
 @Injectable()
 export class TodosService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createTodoDto: CreateTodoDto) {
+  async createForUser(userId: string, createTodoDto: CreateTodoDto) {
     const user = await this.prisma.user.findFirst({
       where: {
-        id: '123',
+        id: userId,
       },
     });
 
     await this.prisma.todo.create({
       data: {
-        text: 'test',
+        text: createTodoDto.text,
         user: {
           connect: {
             id: user.id,
@@ -25,27 +25,27 @@ export class TodosService {
     });
   }
 
-  async findAllForUser() {
+  async findAllForUser(userId: string) {
     return await this.prisma.todo.findMany({
       where: {
-        userId: '123',
+        userId,
       },
     });
   }
 
-  async findOneForUser(id: number) {
+  async findOneForUser(userId: string, id: number) {
     return await this.prisma.todo.findFirst({
       where: {
-        userId: '123',
+        userId,
         id,
       },
     });
   }
 
-  async remove(id: number) {
+  async removeForUser(userId: string, id: number) {
     return await this.prisma.todo.delete({
       where: {
-        userId: '123',
+        userId,
         id,
       },
     });
