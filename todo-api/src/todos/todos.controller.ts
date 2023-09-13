@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { AuthenticatedUser } from 'nest-keycloak-connect';
-import { CreateTodoDto } from './dto/create-todo.dto';
+import { CreateTodoDto } from '../../../common/dto/create-todo.dto';
 import { TodosService } from './todos.service';
 
 @Controller('todos')
