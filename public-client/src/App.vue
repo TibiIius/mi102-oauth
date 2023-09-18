@@ -45,7 +45,9 @@ async function getTodos() {
     console.log(error)
   }
 }
+
 onMounted(async () => {
+  if (!keycloak.authenticated) return
   await getTodos()
 })
 </script>
