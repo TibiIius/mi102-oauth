@@ -16,12 +16,13 @@ import { PrismaModule } from './utils/prisma/prisma.module';
     TodosModule,
     ConfigModule.forRoot({ isGlobal: true }),
     KeycloakConnectModule.register({
-      authServerUrl: 'http://localhost:8080', // might be http://localhost:8080/auth for older keycloak versions
+      authServerUrl: 'http://localhost:8080',
       realm: 'FHKiel',
       clientId: 'nest-todo-api',
       secret: 'pAWrsGP2FVEyVujfOoTU8nekeGWIs0D5',
-      policyEnforcement: PolicyEnforcementMode.PERMISSIVE, // optional
-      tokenValidation: TokenValidation.ONLINE, // optional
+      policyEnforcement: PolicyEnforcementMode.PERMISSIVE, // Don't check for any defined resources in Keycloak as we don't use this feature
+      // tokenValidation: TokenValidation.ONLINE, // Performs token validation against the Keycloak instance directly (contra: resource intensive)
+      tokenValidation: TokenValidation.OFFLINE, // Uses the public keys exposed by the Keycloak instance to validate tokens (contra: stateless, i.e. can't check for tokens invalidated by logout)
     }),
   ],
   providers: [
