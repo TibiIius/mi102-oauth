@@ -9,6 +9,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@auth/core": "^0.15.0",
     "@nuxt/devtools": "latest",
     "@nuxtjs/eslint-config": "^12.0.0",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",

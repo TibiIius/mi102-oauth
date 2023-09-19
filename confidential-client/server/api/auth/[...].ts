@@ -1,5 +1,4 @@
 import KeycloakProvider from "next-auth/providers/keycloak";
-import { MikroOrmAdapter, defaultEntities } from "@auth/mikro-orm-adapter";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import { NuxtAuthHandler } from "#auth";
