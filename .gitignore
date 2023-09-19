@@ -1,1 +1,5 @@
 .env
+
+# Prisma
+dev.db
+dev.db-journal
