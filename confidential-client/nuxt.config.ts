@@ -6,8 +6,8 @@ export default defineNuxtConfig({
   },
   modules: [
     "@nuxtjs/eslint-module",
-    "@sidebase/nuxt-session",
     "@nuxtjs/eslint-module",
+    "@sidebase/nuxt-auth",
   ],
   css: ["~/assets/css/main.css"],
   postcss: {
@@ -16,10 +16,14 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  session: {
-    session: {
-      cookieSecure: true,
-      cookieHttpOnly: true,
+  auth: {
+    baseURL: "http://localhost:3050",
+  },
+  runtimeConfig: {
+    keycloak: {
+      clientId: "",
+      clientSecret: "",
+      issuer: "",
     },
   },
 });

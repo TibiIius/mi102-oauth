@@ -13,5 +13,9 @@
       "path": "todo-api"
     }
   ],
-  "settings": {}
+  "settings": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": false
+    }
+  }
 }
