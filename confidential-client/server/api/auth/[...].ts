@@ -9,9 +9,7 @@ import { NuxtAuthHandler } from "#auth";
 
 const runtimeConfig = useRuntimeConfig();
 
-const prisma = new PrismaClient({
-  log: ["info"],
-});
+const prisma = new PrismaClient({});
 
 export default NuxtAuthHandler({
   session: {
@@ -25,6 +23,7 @@ export default NuxtAuthHandler({
       clientId: runtimeConfig.keycloak.clientId,
       clientSecret: runtimeConfig.keycloak.clientSecret,
       issuer: runtimeConfig.keycloak.issuer,
+      wellKnown: `${runtimeConfig.keycloak.issuer}/.well-known/openid-configuration`,
     }),
   ],
 });
