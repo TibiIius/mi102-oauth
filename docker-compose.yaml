@@ -10,8 +10,9 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: "${PG_PASSWORD}"
   keycloak:
-    image: quay.io/keycloak/keycloak:22.0.1
-    command: start-dev
+    build:
+      dockerfile: ./docker/Dockerfile.keycloak
+      context: ./
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres/keycloak

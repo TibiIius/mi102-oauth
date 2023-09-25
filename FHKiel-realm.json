@@ -647,28 +647,7 @@
         "_id" : "f4130c2d-4e8f-4ce9-8ec4-7ed892aaecca",
         "uris" : [ "/*" ]
       } ],
-      "policies" : [ {
-        "id" : "74dc27a8-ee30-435e-9b40-657e93b1af24",
-        "name" : "Default Policy",
-        "description" : "A policy that grants access only for users within this realm",
-        "type" : "js",
-        "logic" : "POSITIVE",
-        "decisionStrategy" : "AFFIRMATIVE",
-        "config" : {
-          "code" : "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
-        }
-      }, {
-        "id" : "62c57732-09e4-42a2-8a5e-0e9efe1b7a72",
-        "name" : "Default Permission",
-        "description" : "A permission that applies to the default resource type",
-        "type" : "resource",
-        "logic" : "POSITIVE",
-        "decisionStrategy" : "UNANIMOUS",
-        "config" : {
-          "defaultResourceType" : "urn:nest-todo-api:resources:default",
-          "applyPolicies" : "[\"Default Policy\"]"
-        }
-      } ],
+      "policies" : [],
       "scopes" : [ ],
       "decisionStrategy" : "UNANIMOUS"
     }
