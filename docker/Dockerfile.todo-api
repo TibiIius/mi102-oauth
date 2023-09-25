@@ -1,0 +1,34 @@
+# build stage
+FROM docker.io/node:18-alpine as builder
+
+ENV DATABASE_URL "file:/db/prod.db"
+
+WORKDIR /app
+COPY todo-api/package.json todo-api/yarn.lock todo-api/prisma/ ./
+
+RUN yarn install --frozen-lockfile
+
+COPY todo-api/ .
+COPY common /common
+
+RUN yarn prisma generate
+RUN yarn build
+
+# production stage
+FROM docker.io/node:18-alpine
+
+ENV NODE_ENV production
+ENV DATABASE_URL "file:/db/prod.db"
+
+WORKDIR /app
+
+COPY --from=builder /app/package.json /app/yarn.lock ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/@prisma/client/ ./node_modules/@prisma/client/
+COPY --from=builder /app/node_modules/.prisma/client/ ./node_modules/.prisma/client/
+
+RUN yarn install --frozen-lockfile --production
+
+EXPOSE 3000
+CMD [ "yarn", "start:migrate:prod" ]

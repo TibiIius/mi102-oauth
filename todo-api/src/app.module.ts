@@ -16,7 +16,7 @@ import { PrismaModule } from './utils/prisma/prisma.module';
     TodosModule,
     ConfigModule.forRoot({ isGlobal: true }),
     KeycloakConnectModule.register({
-      authServerUrl: 'http://localhost:8080',
+      authServerUrl: process.env.KEYCLOAK_AUTH_SERVER_URL,
       realm: 'FHKiel',
       clientId: 'nest-todo-api',
       secret: 'pAWrsGP2FVEyVujfOoTU8nekeGWIs0D5',

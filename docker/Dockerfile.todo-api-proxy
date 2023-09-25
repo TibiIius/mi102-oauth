@@ -1,0 +1,4 @@
+FROM docker.io/nginx:stable-alpine
+
+COPY docker/web/nginx.keycloak-proxy.conf /etc/nginx/conf.d/keycloak.conf
+CMD ["nginx", "-g", "daemon off;"]

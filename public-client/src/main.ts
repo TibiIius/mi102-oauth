@@ -1,5 +1,4 @@
 import type { KeycloakConfig } from 'keycloak-js'
-import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import App from './App.vue'
 import { keycloakPlugin } from './plugins/keycloak'
@@ -14,7 +13,7 @@ const keycloakOptions: KeycloakConfig = {
 
 const app = createApp(App)
 
-app.use(createPinia()).use(keycloakPlugin, keycloakOptions)
+app.use(keycloakPlugin, keycloakOptions)
 
 const { tokens, timeSkew } = LocalStorageHelper.fromLocalStorage()
 

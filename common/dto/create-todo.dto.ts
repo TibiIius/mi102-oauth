@@ -1,3 +1,3 @@
 export class CreateTodoDto {
-  text: string;
+  text!: string;
 }

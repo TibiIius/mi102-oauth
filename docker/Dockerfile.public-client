@@ -1,0 +1,23 @@
+# build stage
+FROM docker.io/node:18-alpine as builder
+
+WORKDIR /app
+COPY public-client/package.json public-client/yarn.lock ./
+
+RUN yarn install --frozen-lockfile
+
+COPY public-client/ .
+COPY common /common
+
+RUN yarn build
+
+# production stage
+FROM docker.io/nginx:stable-alpine
+
+COPY docker/web/nginx.public-client.conf /etc/nginx/conf.d/default.conf
+COPY docker/web/nginx.keycloak-proxy.conf /etc/nginx/conf.d/keycloak.conf
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 5173
+CMD ["nginx", "-g", "daemon off;"]

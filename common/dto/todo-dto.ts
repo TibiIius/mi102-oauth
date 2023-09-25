@@ -1,4 +1,4 @@
 export class TodoDto {
-  id: number;
-  text: string;
+  id!: number;
+  text!: string;
 }
