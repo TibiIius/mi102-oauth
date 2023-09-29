@@ -17,6 +17,7 @@ export class TodosController {
 
   @Post()
   createForUser(
+    // Header provided by `nest-keycloak-connect`, exposing the user token's claims, enabling us to securely get the user's ID via the `sub` claim
     @AuthenticatedUser() user,
     @Body() createTodoDto: CreateTodoDto,
   ) {

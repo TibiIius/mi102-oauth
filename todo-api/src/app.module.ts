@@ -16,7 +16,8 @@ import { PrismaModule } from './utils/prisma/prisma.module';
     TodosModule,
     ConfigModule.forRoot({ isGlobal: true }),
     KeycloakConnectModule.register({
-      authServerUrl: process.env.KEYCLOAK_AUTH_SERVER_URL,
+      authServerUrl:
+        process.env.KEYCLOAK_AUTH_SERVER_URL || 'http://localhost:8080', // The base URL of the Keycloak server, defaults to localhost under Keycloaks default port
       realm: 'FHKiel',
       clientId: 'nest-todo-api',
       secret: 'pAWrsGP2FVEyVujfOoTU8nekeGWIs0D5',
@@ -26,6 +27,7 @@ import { PrismaModule } from './utils/prisma/prisma.module';
     }),
   ],
   providers: [
+    // Simple guard provided by `nest-keycloak-connect`, securing all routes under the app module (i.e. all routes) by checking for a valid access token in the Authorization header of the HTTP request
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
