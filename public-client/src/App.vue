@@ -46,7 +46,9 @@ async function getTodos() {
   }
 }
 
+// Vue's onMounted hook, this runs a fetch against the API to get a user's todos on page load
 onMounted(async () => {
+  // We don't need to try fetching todos if we're not authenticated anyway, so we just return
   if (!keycloak.authenticated) return
   await getTodos()
 })
@@ -75,7 +77,11 @@ onMounted(async () => {
         />
         <button-main @click="addTodo">+</button-main>
       </div>
-      <div class="mt-4 flex flex-row items-center border-t pt-2" v-for="todo in todos">
+      <div
+        class="mt-4 flex flex-row items-center border-t pt-2"
+        v-for="todo in todos"
+        :key="todo.id"
+      >
         <div class="w-full pl-2">{{ todo.text }}</div>
         <button-main @click="removeTodo(todo)" :color="Colors.Error">-</button-main>
       </div>

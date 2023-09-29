@@ -14,6 +14,10 @@ export class Api {
    * Used to fetch an API endpoint that requires authorization
    *
    * Tries fetching the token required for authorization from the user store
+   *
+   * @param {Keycloak} keycloak Keycloak instance used to access tokens
+   * @param {string} url The API's endpoint URL ("/api" is prepended)
+   * @param {TOKEN_TYPE} [token_type='access'] The token to use, defaults to "access", can be "refresh" aswell, using the user's refresh token
    */
   public static async fetchApiAuthorized<T>(
     keycloak: Keycloak,
@@ -32,6 +36,8 @@ export class Api {
 
   /**
    * Fetches from the API without the need of authorization
+   *
+   * @param {string} url The API's endpoint URL ("/api" is prepended)
    */
   public static async fetchApi<T>(url: string) {
     return axios.get<T>(Api.BASE_URL + url)
@@ -39,6 +45,10 @@ export class Api {
 
   /**
    * Post data to the API using authorization
+   *
+   * @param {Keycloak} keycloak Keycloak instance used to access tokens
+   * @param {string} url The API's endpoint URL ("/api" is prepended)
+   * @param data Body's data, needs to be JSON format
    */
   public static async postApiAuthorized<T>(keycloak: Keycloak, url: string, data: any) {
     await this.handleUnauthorized(keycloak)
@@ -53,6 +63,9 @@ export class Api {
 
   /**
    * Send DELETE request API using authorization
+   *
+   * @param {Keycloak} keycloak Keycloak instance used to access tokens
+   * @param {string} url The API's endpoint URL ("/api" is prepended)
    */
   public static async deleteApiAuthorized<T>(keycloak: Keycloak, url: string) {
     await this.handleUnauthorized(keycloak)
@@ -66,6 +79,9 @@ export class Api {
 
   /**
    * Post data to the API without the need of authorization tokens (e.g. login/signup)
+   *
+   * @param {string} url The API's endpoint URL ("/api" is prepended)
+   * @param data Body's data, needs to be JSON format
    */
   public static async postApi<T>(url: string, data: any) {
     return axios.post<T>(Api.BASE_URL + url, data, {
@@ -77,6 +93,8 @@ export class Api {
 
   /**
    * Helper function to acquire a new set of tokens should the access token be invalid
+   *
+   * @param {Keycloak} keycloak Keycloak instance used to check validity and re-authenticate
    */
   static async handleUnauthorized(keycloak: Keycloak) {
     await keycloak.updateToken(10)
