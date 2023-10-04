@@ -4,7 +4,6 @@ import App from './App.vue'
 import { keycloakPlugin } from './plugins/keycloak'
 import './styles.css'
 import { LocalStorageHelper } from './utils/localStorage'
-import process from 'process'
 
 // Keycloaks mandatory configuration options
 const keycloakOptions: KeycloakConfig = {
@@ -24,7 +23,7 @@ app.config.globalProperties.$keycloak
   .init({
     onLoad: 'check-sso', // `check-sso` means to silently check for an active session against the configured Keycloak server, and to acquire new tokens should none be provided or should the provided ones be out-of-date
     pkceMethod: 'S256', // `S256` is the only supported PKCE method for this library. Setting this method essentially just enables PKCE. The corresponding Keycloak client will have to match the setting, otherwise authentication will not work
-    enableLogging: process.env.NODE_ENV === 'production' ? false : true, // Enables library logging, good for debugging
+    enableLogging: true, // Enables library logging, good for debugging
     timeSkew: timeSkew, // Time dialation between the Keycloak server and the client. This can be important if the system clock is a few minutes behind or above the actual UNIX UTC time
     // The next 3 configuration options are setting initial values for the access, refresh and id tokens. Doing this enables persisting sessions between page refreshes, multiple tabs and browser restarts
     token: tokens?.token ?? undefined,
