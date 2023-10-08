@@ -1,46 +1,37 @@
-# public-client
+# Public Client
 
-This template should help get you started developing with Vue 3 in Vite.
+Eine simple Webapplikation, in welcher Nutzer sich mittels ihres Keycloak-Accounts anmelden können. Der an die Webapp ausgestellte Access-Token wird zum Autorisieren gegenüber der Projekt-API genutzt.
+Die Verbindung zu Keycloak wird mit der offiziellen `KeycloakJS`-Library realisiert
 
-## Recommended IDE Setup
+## IDE-Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Type Support for `.vue` Imports in TS
+## Projekt-Setup
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+### Techstack
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- Paketmanager: `yarn`
+- NodeJS-Version: 18.x LTS
+- VueJS 3 (SPA-Framework)
+- TailwindCSS (CSS-Library)
+- Prettier + ESLint (Formattierung und Linting)
+- KeycloakJS (Helfs-Bibliothek für die Kommunikation mit Keycloak)
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+### Installieren der Abhängigkeiten und Aufsetzen des Projekts
 
 ```sh
 yarn
 ```
 
-### Compile and Hot-Reload for Development
+### Development-Modus mit Hot-Reload-Funktion
 
 ```sh
 yarn dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Production-Build
 
 ```sh
 yarn build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-yarn lint
 ```
