@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Keycloak from 'keycloak-js'
+import { LocalStorageHelper } from './localStorage'
 
 export type TOKEN_TYPE = 'access' | 'refresh'
 
@@ -97,6 +98,17 @@ export class Api {
    * @param {Keycloak} keycloak Keycloak instance used to check validity and re-authenticate
    */
   static async handleUnauthorized(keycloak: Keycloak) {
+    // If the token is only valid for 10 seconds or less, we try to refresh it, first trying with the refresh token, and checking the session afterwards.
     await keycloak.updateToken(10)
+
+    // Set tokens to localStorage
+    LocalStorageHelper.toLocalStorage({
+      tokens: {
+        token: keycloak.token!,
+        idToken: keycloak.idToken!,
+        refreshToken: keycloak.refreshToken!
+      },
+      timeSkew: keycloak.timeSkew!
+    })
   }
 }

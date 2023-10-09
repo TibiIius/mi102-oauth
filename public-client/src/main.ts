@@ -4,6 +4,7 @@ import App from './App.vue'
 import { keycloakPlugin } from './plugins/keycloak'
 import './styles.css'
 import { LocalStorageHelper } from './utils/localStorage'
+import { Api } from './utils/api'
 
 // Keycloaks mandatory configuration options
 const keycloakOptions: KeycloakConfig = {
@@ -34,18 +35,8 @@ app.config.globalProperties.$keycloak
     const keycloak = app.config.globalProperties.$keycloak
 
     try {
-      // If the token is only valid for 5 seconds or less, we try to refresh it, first trying with the refresh token, and checking the session afterwards.
-      await keycloak.updateToken(5)
-
-      // Set tokens to localStorage
-      LocalStorageHelper.toLocalStorage({
-        tokens: {
-          token: keycloak.token!,
-          idToken: keycloak.idToken!,
-          refreshToken: keycloak.refreshToken!
-        },
-        timeSkew: keycloak.timeSkew!
-      })
+      // Checks if tokens loaded from local storage are still valid, and updates them in case they're not
+      await Api.handleUnauthorized(keycloak)
     } catch (e) {
       // The token state could not be validated, so we assume that the tokens are invalidated, and that there is no active session for the user, so we just log remove the token, requiring him to re-authenticate against the Keycloak server.
       keycloak.clearToken()
