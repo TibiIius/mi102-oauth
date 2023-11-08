@@ -9,7 +9,7 @@ export type TOKEN_TYPE = 'access' | 'refresh'
  */
 export class Api {
   private static CONTENT_TYPE = 'application/json'
-  private static BASE_URL = '/api'
+  private static BASE_URL = import.meta.env.API_BASE_URL
 
   /**
    * Used to fetch an API endpoint that requires authorization
