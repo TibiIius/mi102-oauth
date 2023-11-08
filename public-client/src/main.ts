@@ -8,9 +8,9 @@ import { Api } from './utils/api'
 
 // Keycloaks mandatory configuration options
 const keycloakOptions: KeycloakConfig = {
-  clientId: 'vue-public-client', // Set in Keycloak directly, an identifier to associate the application with. We do not use client secrets in public clients as we can't secure them
-  realm: 'FHKiel', // Keycloak-specific, basically an own isolated environment consisting of its own set of users, clients, session settings, etc.
-  url: 'http://localhost:8080/' // Base URL of the Keycloak server, will be needed to redirect the browser
+  clientId: import.meta.env.VITE_PUBLIC_CLIENT_ID || 'vue-public-client', // Set in Keycloak directly, an identifier to associate the application with. We do not use client secrets in public clients as we can't secure them
+  realm: import.meta.env.VITE_KEYCLOAK_AUTH_SERVER_REALM || 'FHKiel', // Keycloak-specific, basically an own isolated environment consisting of its own set of users, clients, session settings, etc.
+  url: import.meta.env.VITE_KEYCLOAK_AUTH_SERVER_URL || 'http://localhost:8080/' // Base URL of the Keycloak server, will be needed to redirect the browser
 }
 
 const app = createApp(App)

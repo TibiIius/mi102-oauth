@@ -32,23 +32,23 @@ services:
     ports:
       - 5173:5173
     depends_on:
-      - todo-api
+      - todo-api-internal
       - keycloak
-  todo-api:
+  todo-api-internal:
     build:
       dockerfile: ./docker/Dockerfile.todo-api
       context: ./
     volumes:
       - todo_api_db:/db
-    network_mode: "service:todo-api-proxy"
+    network_mode: "service:todo-api"
     depends_on:
       - keycloak
-      - todo-api-proxy
+      - todo-api
     environment:
-      KEYCLOAK_AUTH_SERVER_URL: "http://localhost:8080"
+      KEYCLOAK_AUTH_SERVER_URL: ${KEYCLOAK_AUTH_SERVER_URL}
   # This is needed in the demo application as otherwise we'd have to refer to the keycloak server via the container's name, and this would result in a mismatch between `iss` claim and the actual server address.
   # We spin up an aditional NGINX container, this is not very suitable for production, but prod servers are generally never accessed via `localhost` anyway, so this issue wouldn't exist in the first place.
-  todo-api-proxy:
+  todo-api:
     build:
       dockerfile: ./docker/Dockerfile.todo-api-proxy
       context: ./

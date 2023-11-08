@@ -18,9 +18,11 @@ import { PrismaModule } from './utils/prisma/prisma.module';
     KeycloakConnectModule.register({
       authServerUrl:
         process.env.KEYCLOAK_AUTH_SERVER_URL || 'http://localhost:8080', // The base URL of the Keycloak server, defaults to localhost under Keycloaks default port
-      realm: 'FHKiel',
-      clientId: 'nest-todo-api',
-      secret: 'pAWrsGP2FVEyVujfOoTU8nekeGWIs0D5',
+      realm: process.env.KEYCLOAK_AUTH_SERVER_REALM || 'FHKiel',
+      clientId: process.env.CONFIDENTIAL_CLIENT_ID || 'nest-todo-api',
+      secret:
+        process.env.CONFIDENTIAL_CLIENT_SECRET ||
+        'pAWrsGP2FVEyVujfOoTU8nekeGWIs0D5',
       policyEnforcement: PolicyEnforcementMode.PERMISSIVE, // Don't check for any defined resources in Keycloak as we don't use this feature
       // tokenValidation: TokenValidation.ONLINE, // Performs token validation against the Keycloak instance directly (contra: resource intensive)
       tokenValidation: TokenValidation.OFFLINE, // Uses the public keys exposed by the Keycloak instance to validate tokens (contra: stateless, i.e. can't check for tokens invalidated by logout)
