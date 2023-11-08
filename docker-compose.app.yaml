@@ -9,27 +9,53 @@ services:
         VITE_PUBLIC_CLIENT_ID: ${PUBLIC_CLIENT_ID}
         VITE_KEYCLOAK_AUTH_SERVER_REALM: ${KEYCLOAK_AUTH_SERVER_REALM}
         VITE_KEYCLOAK_AUTH_SERVER_URL: ${KEYCLOAK_AUTH_SERVER_URL}
-        VITE_API_BASE_URL: ${API_BASE_URL}
-    ports:
-      - "${PORT_FRONTEND}:5173"
     depends_on:
       - todo-api
     pull_policy: "build"
+    expose:
+      - 5173
+    networks:
+      - internal
+      - traefik_default
+    labels:
+      traefik.enable: "true"
+
+      traefik.http.routers.guestbook-frontend.entrypoints: "guestbook-frontend"
+      traefik.http.routers.guestbook-frontend.tls: "true"
+      traefik.http.routers.guestbook-frontend.rule: "Host(`bento.xn--totalgrn-d6a.de`)"
+      traefik.http.routers.guestbook-frontend.tls.certresolver: "acme"
+      traefik.http.services.guestbook-frontend.loadbalancer.server.port: 5173
+
   todo-api:
     build:
       dockerfile: ./docker/Dockerfile.todo-api
       context: ./
     volumes:
       - todo_api_db:/db
-    ports:
-      - "${PORT_BACKEND}:3000"
+    expose:
+      - 3000
     environment:
       KEYCLOAK_AUTH_SERVER_URL: ${KEYCLOAK_AUTH_SERVER_URL}
       KEYCLOAK_AUTH_SERVER_REALM: ${KEYCLOAK_AUTH_SERVER_REALM}
       CONFIDENTIAL_CLIENT_ID: ${CONFIDENTIAL_CLIENT_ID}
       CONFIDENTIAL_CLIENT_SECRET: ${CONFIDENTIAL_CLIENT_SECRET}
     pull_policy: "build"
+    networks:
+      - internal
+      - traefik_default
+    labels:
+      traefik.enable: "true"
+
+      traefik.http.routers.guestbook-backend.entrypoints: "guestbook-backend"
+      traefik.http.routers.guestbook-backend.tls: "true"
+      traefik.http.routers.guestbook-backend.rule: "Host(`bento.xn--totalgrn-d6a.de`)"
+      traefik.http.routers.guestbook-backend.tls.certresolver: "acme"
 
 volumes:
   todo_api_db:
     driver: local
+
+networks:
+  traefik_default: 
+    external: true
+  internal:
