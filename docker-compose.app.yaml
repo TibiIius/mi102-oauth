@@ -21,7 +21,7 @@ services:
     labels:
       traefik.enable: "true"
 
-      traefik.http.routers.guestbook-frontend.entrypoints: "guestbook-frontend"
+      traefik.http.routers.guestbook-frontend.entrypoints: "https"
       traefik.http.routers.guestbook-frontend.tls: "true"
       traefik.http.routers.guestbook-frontend.rule: "Host(`bento.xn--totalgrn-d6a.de`)"
       traefik.http.routers.guestbook-frontend.tls.certresolver: "acme"
@@ -48,9 +48,9 @@ services:
     labels:
       traefik.enable: "true"
 
-      traefik.http.routers.guestbook-backend.entrypoints: "guestbook-backend"
+      traefik.http.routers.guestbook-backend.entrypoints: "https"
       traefik.http.routers.guestbook-backend.tls: "true"
-      traefik.http.routers.guestbook-backend.rule: "Host(`bento.xn--totalgrn-d6a.de`)"
+      traefik.http.routers.guestbook-backend.rule: "Host(`api.xn--totalgrn-d6a.de`)"
       traefik.http.routers.guestbook-backend.tls.certresolver: "acme"
 
 volumes:
