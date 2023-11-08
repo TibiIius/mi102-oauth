@@ -9,8 +9,8 @@ services:
         VITE_PUBLIC_CLIENT_ID: ${PUBLIC_CLIENT_ID}
         VITE_KEYCLOAK_AUTH_SERVER_REALM: ${KEYCLOAK_AUTH_SERVER_REALM}
         VITE_KEYCLOAK_AUTH_SERVER_URL: ${KEYCLOAK_AUTH_SERVER_URL}
-    expose:
-      - 5173
+    ports:
+      - "${PORT_FRONTEND}:5173"
     depends_on:
       - todo-api
   todo-api:
@@ -19,8 +19,8 @@ services:
       context: ./
     volumes:
       - todo_api_db:/db
-    expose:
-      - 3000
+    ports:
+      - "${PORT_BACKEND}:3000"
     environment:
       KEYCLOAK_AUTH_SERVER_URL: ${KEYCLOAK_AUTH_SERVER_URL}
       KEYCLOAK_AUTH_SERVER_REALM: ${KEYCLOAK_AUTH_SERVER_REALM}
