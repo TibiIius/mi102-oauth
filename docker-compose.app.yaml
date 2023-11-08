@@ -5,14 +5,14 @@ services:
     build:
       dockerfile: ./docker/Dockerfile.public-client
       context: ./
+      args:
+        VITE_PUBLIC_CLIENT_ID: ${PUBLIC_CLIENT_ID}
+        VITE_KEYCLOAK_AUTH_SERVER_REALM: ${KEYCLOAK_AUTH_SERVER_REALM}
+        VITE_KEYCLOAK_AUTH_SERVER_URL: ${KEYCLOAK_AUTH_SERVER_URL}
     expose:
       - 5173
     depends_on:
       - todo-api
-    environment:
-      VITE_PUBLIC_CLIENT_ID: ${PUBLIC_CLIENT_ID}
-      VITE_KEYCLOAK_AUTH_SERVER_REALM: ${KEYCLOAK_AUTH_SERVER_REALM}
-      VITE_KEYCLOAK_AUTH_SERVER_URL: ${KEYCLOAK_AUTH_SERVER_URL}
   todo-api:
     build:
       dockerfile: ./docker/Dockerfile.todo-api
