@@ -13,6 +13,7 @@ services:
       - "${PORT_FRONTEND}:5173"
     depends_on:
       - todo-api
+    pull_policy: "build"
   todo-api:
     build:
       dockerfile: ./docker/Dockerfile.todo-api
@@ -26,6 +27,7 @@ services:
       KEYCLOAK_AUTH_SERVER_REALM: ${KEYCLOAK_AUTH_SERVER_REALM}
       CONFIDENTIAL_CLIENT_ID: ${CONFIDENTIAL_CLIENT_ID}
       CONFIDENTIAL_CLIENT_SECRET: ${CONFIDENTIAL_CLIENT_SECRET}
+    pull_policy: "build"
 
 volumes:
   todo_api_db:
