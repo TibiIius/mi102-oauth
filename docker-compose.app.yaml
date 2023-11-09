@@ -31,8 +31,10 @@ services:
     build:
       dockerfile: ./docker/Dockerfile.todo-api
       context: ./
-    volumes:
-      - todo_api_db:/db
+      args:
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_HOST: ${POSTGRES_HOST}
     expose:
       - 3000
     environment:
@@ -41,6 +43,9 @@ services:
       CONFIDENTIAL_CLIENT_ID: ${CONFIDENTIAL_CLIENT_ID}
       CONFIDENTIAL_CLIENT_SECRET: ${CONFIDENTIAL_CLIENT_SECRET}
       FRONTEND_BASE_URL: ${FRONTEND_BASE_URL}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: ${POSTGRES_HOST}
     pull_policy: "build"
     networks:
       - internal
@@ -52,12 +57,35 @@ services:
       traefik.http.routers.guestbook-backend.tls: "true"
       traefik.http.routers.guestbook-backend.rule: "Host(`${TRAEFIK_BACKEND_HOST}`)"
       traefik.http.routers.guestbook-backend.tls.certresolver: "acme"
-
+  db:
+    image: docker.io/postgres:15-alpine
+    volumes:
+      - todo_api_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - todo-api
+    networks:
+      - internal
+      - db
+  pgadmin:
+    image: docker.io/dpage/pgadmin4:7
+    ports:
+      - "3023:80"
+    depends_on:
+      - db
+    networks:
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
 volumes:
   todo_api_db:
     driver: local
 
 networks:
-  traefik_default: 
+  traefik_default:
     external: true
   internal:
+  db:

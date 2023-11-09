@@ -8,8 +8,10 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "db:dev": "docker run --name $(basename $(pwd))-pg-dev -d --rm -p 5432:5432 --env-file ./.env postgres:15-alpine >/dev/null 2>&1 && while (! docker exec $(basename $(pwd))-pg-dev pg_isready -U postgres >/dev/null 2>&1); do sleep 1; done && prisma migrate reset --force || exit 0",
+    "db:dev:down": "docker rm -f $(basename $(pwd))-pg-dev",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "yarn db:dev && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "start:migrate:prod": "yarn prisma migrate deploy && yarn start:prod",

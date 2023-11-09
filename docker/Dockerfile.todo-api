@@ -1,7 +1,11 @@
 # build stage
 FROM docker.io/node:18-alpine as builder
 
-ENV DATABASE_URL "file:/db/prod.db"
+ARG POSTGRES_USER
+ARG POSTGRES_PASSWORD
+ARG POSTGRES_HOST
+
+ENV DATABASE_URL "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/mi102-oauth?schema=public"
 
 WORKDIR /app
 COPY todo-api/package.json todo-api/yarn.lock todo-api/prisma/ ./
@@ -17,8 +21,13 @@ RUN yarn build
 # production stage
 FROM docker.io/node:18-alpine
 
+ARG POSTGRES_USER
+ARG POSTGRES_PASSWORD
+ARG POSTGRES_HOST
+
 ENV NODE_ENV production
-ENV DATABASE_URL "file:/db/prod.db"
+ENV DATABASE_URL "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/mi102-oauth?schema=public"
+
 
 WORKDIR /app
 
