@@ -36,7 +36,7 @@ jobs:
       matrix:
         image: ["todo-api", "todo-api-proxy", "public-client", "keycloak"]
     env:
-      IMAGE_NAME: ${{ github.repository }}-${{ matrix.build_variant }}
+      IMAGE_NAME: ${{ github.repository }}-${{ matrix.image }}
 
     steps:
       - name: Checkout repository
@@ -73,7 +73,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./docker/Dockerfile.${{ env.IMAGE_NAME }}
+          file: ./docker/Dockerfile.${{ matrix.image }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
