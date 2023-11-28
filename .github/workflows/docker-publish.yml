@@ -19,8 +19,6 @@ on:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
 
 
 jobs:
@@ -38,7 +36,7 @@ jobs:
       matrix:
         image: ["todo-api", "todo-api-proxy", "public-client", "keycloak"]
     env:
-      IMAGE_NAME: ${{ env.IMAGE_NAME }}-${{ matrix.build_variant }}
+      IMAGE_NAME: ${{ github.repository }}-${{ matrix.build_variant }}
 
     steps:
       - name: Checkout repository
